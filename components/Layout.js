@@ -1,15 +1,39 @@
-import { AppBar, Container, Toolbar, Typography } from '@material-ui/core';
+import {
+  AppBar,
+  Container,
+  Link,
+  Toolbar,
+  Typography,
+} from '@material-ui/core';
 import Head from 'next/head';
+import NextLink from 'next/link';
 import React from 'react';
 import useStyles from '../utils/styles';
-export const Layout = ({ children }) => {
+
+export default function Layout({ title, description, children }) {
   const classes = useStyles();
   return (
     <div>
-      <Head>Next Shopping App</Head>
+      <Head>
+        <title>{title ? `${title} - Dan Store` : 'Dan Store'}</title>
+        {description && <meta name="description" content={description}></meta>}
+      </Head>
       <AppBar position="static" className={classes.navbar}>
         <Toolbar>
-          <Typography>Dan Store</Typography>
+          <NextLink href="/">
+            <Link>
+              <Typography className={classes.brand}>Dan Store</Typography>
+            </Link>
+          </NextLink>
+          <div className={classes.grow}></div>
+          <div>
+            <NextLink href="/cart" passHref>
+              <Link>Cart</Link>
+            </NextLink>
+            <NextLink href="/login" passHref>
+              <Link>Login</Link>
+            </NextLink>
+          </div>
         </Toolbar>
       </AppBar>
       <Container className={classes.main}>{children}</Container>
@@ -18,4 +42,4 @@ export const Layout = ({ children }) => {
       </footer>
     </div>
   );
-};
+}
