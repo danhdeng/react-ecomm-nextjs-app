@@ -45,7 +45,9 @@ export default function ProductScreen() {
         <Grid item md={3} xs={12}>
           <List>
             <ListItem>
-              <Typography component="h1">{product.name}</Typography>
+              <Typography component="h1" variant="h1">
+                {product.name}
+              </Typography>
             </ListItem>
             <ListItem>
               <Typography>Category: {product.category}</Typography>
@@ -82,7 +84,7 @@ export default function ProductScreen() {
                 </Grid>
                 <Grid item xs={6}>
                   <Typography>
-                    ${product.countInStock > 0 ? 'In stock' : 'Unavaiable'}
+                    {product.countInStock > 0 ? 'In stock' : 'Unavailable'}
                   </Typography>
                 </Grid>
               </ListItem>
