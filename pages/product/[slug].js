@@ -9,17 +9,17 @@ import {
 } from '@material-ui/core';
 import Image from 'next/image';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import React from 'react';
 import Layout from '../../components/Layout';
-import data from '../../utils/data';
+// import data from '../../utils/data';
 import useStyles from '../../utils/styles';
+import Product from '../../models/product';
+import db from '../../utils/db';
 
-export default function ProductScreen() {
+export default function ProductScreen(props) {
   const classes = useStyles();
-  const router = useRouter();
-  const { slug } = router.query;
-  const product = data.products.find((p) => p.slug == slug);
+  const { product } = props;
   if (!product) {
     return <div>Product Not Found</div>;
   }
@@ -99,4 +99,17 @@ export default function ProductScreen() {
       </Grid>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const { slug } = params;
+  await db.connect();
+  const product = await Product.findOne({ slug }).lean();
+  await db.disconnect();
+  return {
+    props: {
+      product: db.convertDocToObject(product),
+    },
+  };
 }
