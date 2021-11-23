@@ -1,20 +1,22 @@
 import {
-  Typography,
+  Button,
+  Link,
   List,
   ListItem,
   TextField,
-  Button,
-  Link,
+  Typography,
 } from '@material-ui/core';
-import React, { useState, useContext } from 'react';
-import Layout from '../components/Layout';
-import useStyles from '../utils/styles';
-import NextLink from 'next/link';
 import axios from 'axios';
-import { Store } from '../utils/Store';
+import NextLink from 'next/link';
 import { useRouter } from 'next/router';
+import React, { useContext, useEffect, useState } from 'react';
+import Layout from '../components/Layout';
+import { Store } from '../utils/Store';
+import useStyles from '../utils/styles';
 
 export default function Login() {
+  const { userInfo } = useContext(Store);
+
   const router = useRouter();
   const { redirect } = router.query;
   const [email, setEmail] = useState('');
@@ -28,8 +30,8 @@ export default function Login() {
         email,
         password,
       });
-      dispatch({ type: 'USER_LOG_IN', payload: data });
-      window.alert('login successfully');
+      dispatch({ type: 'USER_LOGIN', payload: data });
+      //window.alert('login successfully');
       router.push(redirect || '/');
     } catch (error) {
       window.alert(
@@ -37,6 +39,11 @@ export default function Login() {
       );
     }
   };
+  useEffect(() => {
+    if (userInfo) {
+      router.push('/');
+    }
+  }, [router, userInfo]);
   return (
     <Layout title="Login">
       <form onSubmit={loginHandler} className={classes.form}>
