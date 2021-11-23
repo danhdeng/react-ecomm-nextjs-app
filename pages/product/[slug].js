@@ -10,6 +10,7 @@ import {
 import axios from 'axios';
 import Image from 'next/image';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 // import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
 import Layout from '../../components/Layout';
@@ -22,20 +23,28 @@ import useStyles from '../../utils/styles';
 export default function ProductScreen(props) {
   const classes = useStyles();
   const { product } = props;
-  const { dispatch } = useContext(Store);
+  const { state, dispatch } = useContext(Store);
+  const router = useRouter();
   if (!product) {
     return <div>Product Not Found</div>;
   }
 
   const addToCartHandler = async () => {
     const { data } = await axios.get(`/api/products/${product._id}`);
-    if (data.countInStock <= 0) {
+
+    const existingItem = state.cart.cartItems.find(
+      (item) => item._id === product._id
+    );
+    const quantity = existingItem ? existingItem.quantity + 1 : 1;
+    if (data.countInStock <= quantity) {
       window.alert('Sorry. Product is out of stock');
+      return;
     }
     dispatch({
       type: 'ADD_ITEM_TO_CART',
-      payload: { ...product, quantity: 1 },
+      payload: { ...product, quantity: quantity },
     });
+    router.push('/cart');
   };
   return (
     <Layout title={product.name} description={product.description}>
