@@ -1,6 +1,7 @@
 import {
   AppBar,
   Badge,
+  Button,
   Container,
   createTheme,
   CssBaseline,
@@ -19,7 +20,7 @@ import useStyles from '../utils/styles';
 
 export default function Layout({ title, description, children }) {
   const { state, dispatch } = useContext(Store);
-  const { darkMode, cart } = state;
+  const { darkMode, cart, userInfo } = state;
   const classes = useStyles();
   const theme = createTheme({
     typography: {
@@ -89,9 +90,13 @@ export default function Layout({ title, description, children }) {
                   )}
                 </Link>
               </NextLink>
-              <NextLink href="/login" passHref>
-                <Link>Login</Link>
-              </NextLink>
+              {userInfo ? (
+                <Button>{userInfo.name}</Button>
+              ) : (
+                <NextLink href="/login" passHref>
+                  <Link>Login</Link>
+                </NextLink>
+              )}
             </div>
           </Toolbar>
         </AppBar>
