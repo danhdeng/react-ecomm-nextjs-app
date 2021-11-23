@@ -22,9 +22,11 @@ import NextLink from 'next/link';
 import React, { useContext } from 'react';
 import Layout from '../components/Layout';
 import { Store } from '../utils/Store';
+import { useRouter } from 'next/router';
 
 function CartScreen() {
   const { state, dispatch } = useContext(Store);
+  const router = useRouter();
   const {
     cart: { cartItems },
   } = state;
@@ -43,6 +45,9 @@ function CartScreen() {
       type: 'REMOVE_ITEM_FROM_CART',
       payload: item,
     });
+  };
+  const checkoutHandler = () => {
+    router.push('/shipping');
   };
   return (
     <Layout title="Shopping">
@@ -130,7 +135,12 @@ function CartScreen() {
                   </Typography>
                 </ListItem>
                 <ListItem>
-                  <Button variant="contained" color="primary" fullWidth>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => checkoutHandler()}
+                  >
                     Check out
                   </Button>
                 </ListItem>
