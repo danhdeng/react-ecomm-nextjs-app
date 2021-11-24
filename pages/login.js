@@ -9,6 +9,7 @@ import {
 import axios from 'axios';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 import React, { useContext, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Layout from '../components/Layout';
@@ -22,11 +23,13 @@ export default function Login() {
     control,
     formState: { errors },
   } = useForm();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const router = useRouter();
   const { redirect } = router.query;
   const classes = useStyles();
   const { dispatch } = useContext(Store);
-  const loginHandler = async ({email, password}) => {
+  const loginHandler = async ({ email, password }) => {
+    closeSnackbar();
     try {
       const { data } = await axios.post('/api/users/login', {
         email,
@@ -37,8 +40,9 @@ export default function Login() {
       router.push(redirect || '/');
     } catch (error) {
       console.log(error);
-      window.alert(
-        error.response ? error.response.data.message : error.message
+      enqueueSnackbar(
+        error.response ? error.response.data.message : error.message,
+        { variant: 'error' }
       );
     }
   };
