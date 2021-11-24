@@ -1,5 +1,11 @@
 import React from 'react';
+import CheckoutWizard from '../components/CheckoutWizard';
 
 export default function payment() {
-  return <div>payment info</div>;
+  return (
+    <div>
+      <CheckoutWizard activeStep={2} />
+      payment info
+    </div>
+  );
 }

@@ -6,12 +6,11 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import axios from 'axios';
-import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import React, { useContext, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import CheckoutWizard from '../components/CheckoutWizard';
 import Layout from '../components/Layout';
 import { Store } from '../utils/Store';
 import useStyles from '../utils/styles';
@@ -73,6 +72,7 @@ export default function Shipping() {
   }, [router, userInfo, shippingInfo, setValue]);
   return (
     <Layout title="Shipping Address">
+      <CheckoutWizard activeStep={1} />
       <form
         onSubmit={handleSubmit(submitShippingHandler)}
         className={classes.form}
