@@ -40,10 +40,9 @@ export default function Login() {
       router.push(redirect || '/');
     } catch (error) {
       console.log(error);
-      enqueueSnackbar(
-        error.response ? error.response.data.message : error.message,
-        { variant: 'error' }
-      );
+      enqueueSnackbar(error.response ? error.response.data : error.message, {
+        variant: 'error',
+      });
     }
   };
   useEffect(() => {

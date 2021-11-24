@@ -9,6 +9,7 @@ import {
 import axios from 'axios';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 import React, { useContext, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Layout from '../components/Layout';
@@ -17,6 +18,7 @@ import useStyles from '../utils/styles';
 
 export default function Register() {
   const { userInfo } = useContext(Store);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const {
     handleSubmit,
     control,
@@ -32,6 +34,7 @@ export default function Register() {
     password,
     confirmPassword,
   }) => {
+    closeSnackbar();
     try {
       if (password !== confirmPassword) {
         window.alert('password did not match');
@@ -46,9 +49,10 @@ export default function Register() {
       //window.alert('login successfully');
       router.push(redirect || '/');
     } catch (error) {
-      window.alert(
-        error.response ? error.response.data.message : error.message
-      );
+      // console.log(error.response.data);
+      enqueueSnackbar(error.response ? error.response.data : error.message, {
+        variant: 'error',
+      });
     }
   };
   useEffect(() => {
@@ -78,6 +82,7 @@ export default function Register() {
                   fullWidth
                   id="name"
                   label="Name"
+                  inputProps={{ type: 'name' }}
                   error={Boolean(errors.name)}
                   helperText={
                     errors.name
