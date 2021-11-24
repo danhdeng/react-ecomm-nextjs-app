@@ -49,6 +49,9 @@ function reducer(state, action) {
       Cookies.remove('userInfo');
       Cookies.remove('cartItems');
       return { ...state, userInfo: null, cart: { cartItems: [] } };
+    case 'USER_REGISTER':
+      Cookies.set('userInfo', JSON.stringify(action.payload));
+      return { ...state, userInfo: action.payload };
     default:
       return state;
   }
