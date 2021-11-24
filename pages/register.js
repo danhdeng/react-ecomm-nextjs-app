@@ -37,7 +37,7 @@ export default function Register() {
     closeSnackbar();
     try {
       if (password !== confirmPassword) {
-        window.alert('password did not match');
+        enqueueSnackbar('password did not match', { variant: 'error' });
         return;
       }
       const { data } = await axios.post('/api/users/register', {
