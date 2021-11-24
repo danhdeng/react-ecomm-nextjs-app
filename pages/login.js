@@ -17,7 +17,8 @@ import { Store } from '../utils/Store';
 import useStyles from '../utils/styles';
 
 export default function Login() {
-  const { userInfo } = useContext(Store);
+  const { state, dispatch } = useContext(Store);
+  const { userInfo } = state;
   const {
     handleSubmit,
     control,
@@ -27,7 +28,6 @@ export default function Login() {
   const router = useRouter();
   const { redirect } = router.query;
   const classes = useStyles();
-  const { dispatch } = useContext(Store);
   const loginHandler = async ({ email, password }) => {
     closeSnackbar();
     try {
@@ -39,17 +39,22 @@ export default function Login() {
       //window.alert('login successfully');
       router.push(redirect || '/');
     } catch (error) {
-      console.log(error);
-      enqueueSnackbar(error.response ? error.response.data : error.message, {
-        variant: 'error',
-      });
+      console.log(error.response);
+      enqueueSnackbar(
+        error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : error.response.data,
+        {
+          variant: 'error',
+        }
+      );
     }
   };
   useEffect(() => {
     if (userInfo) {
       router.push('/');
     }
-  }, [router, userInfo]);
+  }, []);
   return (
     <Layout title="Login">
       <form onSubmit={handleSubmit(loginHandler)} className={classes.form}>

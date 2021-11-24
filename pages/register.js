@@ -17,7 +17,8 @@ import { Store } from '../utils/Store';
 import useStyles from '../utils/styles';
 
 export default function Register() {
-  const { userInfo } = useContext(Store);
+  const { state, dispatch } = useContext(Store);
+  const { userInfo } = state;
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const {
     handleSubmit,
@@ -27,7 +28,6 @@ export default function Register() {
   const router = useRouter();
   const { redirect } = router.query;
   const classes = useStyles();
-  const { dispatch } = useContext(Store);
   const registerHandler = async ({
     name,
     email,
@@ -49,10 +49,18 @@ export default function Register() {
       //window.alert('login successfully');
       router.push(redirect || '/');
     } catch (error) {
-      // console.log(error.response.data);
-      enqueueSnackbar(error.response ? error.response.data : error.message, {
-        variant: 'error',
-      });
+      console.log(error.response);
+      // enqueueSnackbar(error.response ? error.response.data : error.message, {
+      //   variant: 'error',
+      // });
+      enqueueSnackbar(
+        error.response.data
+          ? error.response.data.message
+          : error.response.message,
+        {
+          variant: 'error',
+        }
+      );
     }
   };
   useEffect(() => {
@@ -64,7 +72,7 @@ export default function Register() {
     <Layout title="Register">
       <form onSubmit={handleSubmit(registerHandler)} className={classes.form}>
         <Typography component="h1" variant="h1">
-          Login
+          Register
         </Typography>
         <List>
           <ListItem>
