@@ -44,6 +44,7 @@ function PlaceOrder() {
   const totalPrice = Round2(itemsPrice + shippingPrice + taxPrice);
   const [loading, setLoading] = useState(false);
   const placeOrderHandler = async () => {
+    console.log(shippingInfo);
     closeSnackbar();
     try {
       setLoading(true);

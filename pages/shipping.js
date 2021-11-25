@@ -17,8 +17,12 @@ import useStyles from '../utils/styles';
 
 export default function Shipping() {
   const { state, dispatch } = useContext(Store);
-  const { userInfo, cart } = state;
-  const { shippingInfo } = cart;
+  console.log(state);
+  const {
+    userInfo,
+    cart: { shippingInfo },
+  } = state;
+  // const { shippingInfo } = cart;
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const {
     handleSubmit,

@@ -63,7 +63,10 @@ function reducer(state, action) {
       };
     case 'SAVE_SHIPPING_ADDRESS':
       Cookies.set('shippingInfo', JSON.stringify(action.payload));
-      return { ...state, cart: { ...state.cart, userInfo: action.payload } };
+      return {
+        ...state,
+        cart: { ...state.cart, shippingInfo: action.payload },
+      };
     case 'SAVE_PAYMENT_METHOD':
       Cookies.set('paymentMethod', action.payload);
       return {

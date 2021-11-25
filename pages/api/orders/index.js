@@ -11,12 +11,13 @@ const handler = nc({
 handler.use(isAuth);
 
 handler.post(async (req, res) => {
+  console.log(req.body);
   await db.connect();
   const newOrder = new Order({
     ...req.body,
     user: req.user._id,
   });
-  const order =await newOrder.save();
+  const order = await newOrder.save();
   res.status(201).send(order);
 });
 
