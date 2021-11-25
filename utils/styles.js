@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
   navbar: {
@@ -27,6 +27,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
   },
   form: {
+    width: '100%',
     maxWidth: 800,
     margin: '0 auto',
   },

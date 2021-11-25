@@ -3,7 +3,10 @@ import nc from 'next-connect';
 import User from '../../../models/User';
 import { signToken } from '../../../utils/auth';
 import db from '../../../utils/db';
-const handler = nc();
+import { onError } from '../../../utils/error';
+const handler = nc({
+  onError,
+});
 
 handler.post(async (req, res) => {
   await db.connect();
@@ -13,7 +16,7 @@ handler.post(async (req, res) => {
     password: bcrypt.hashSync(req.body.password),
     isAdmin: false,
   });
-  const user =await newUser.save();
+  const user = await newUser.save();
   await db.disconnect();
   const token = signToken(user);
   res.send({

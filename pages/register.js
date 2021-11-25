@@ -13,6 +13,7 @@ import { useSnackbar } from 'notistack';
 import React, { useContext, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Layout from '../components/Layout';
+import { getError } from '../utils/error';
 import { Store } from '../utils/Store';
 import useStyles from '../utils/styles';
 
@@ -53,14 +54,9 @@ export default function Register() {
       // enqueueSnackbar(error.response ? error.response.data : error.message, {
       //   variant: 'error',
       // });
-      enqueueSnackbar(
-        error.response.data
-          ? error.response.data.message
-          : error.response.message,
-        {
-          variant: 'error',
-        }
-      );
+      enqueueSnackbar(getError(error), {
+        variant: 'error',
+      });
     }
   };
   useEffect(() => {

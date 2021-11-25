@@ -80,6 +80,9 @@ function PlaceOrder() {
     if (!paymentMethod) {
       router.push('/payment');
     }
+    if (cartItems.length === 0) {
+      router.push('/cart');
+    }
   }, [router, paymentMethod]);
   return (
     <Layout title="Place Order">
