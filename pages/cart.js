@@ -50,11 +50,14 @@ function CartScreen() {
     router.push('/shipping');
   };
   return (
-    <Layout title="Shopping">
-      <Typography component="h1" variant="h1"></Typography>
+    <Layout title="Shopping Cart">
+      <Typography component="h1" variant="h1">Shopping Cart</Typography>
       {cartItems.length === 0 ? (
         <div>
-          Cart is empty. <NextLink href="/">Go Shopping</NextLink>
+          Cart is empty.{' '}
+          <NextLink href="/" passHref>
+            <Link>Go shopping</Link>
+          </NextLink>
         </div>
       ) : (
         <Grid container spacing={1}>
@@ -141,7 +144,7 @@ function CartScreen() {
                     fullWidth
                     onClick={() => checkoutHandler()}
                   >
-                    Check out
+                    Check Out
                   </Button>
                 </ListItem>
               </List>
