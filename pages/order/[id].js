@@ -100,6 +100,12 @@ function OrderDetails({ params }) {
     ) {
       console.log('fetch order');
       fetchOrder();
+      if (successPay) {
+        dispatch({ type: 'PAY_RESET' });
+      }
+      if (successDeliver) {
+        dispatch({ type: 'DELIVER_RESET' });
+      }
     } else {
       console.log('load paypal script');
       loadPaypalScript();
