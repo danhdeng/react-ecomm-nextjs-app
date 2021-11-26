@@ -13,6 +13,7 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core';
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import axios from 'axios';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -21,12 +22,13 @@ import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import React, { useContext, useEffect, useReducer } from 'react';
 import Layout from '../../components/Layout';
-import { Store } from '../../utils/Store';
-import useStyles from '../../utils/styles';
 import { orderReducer } from '../../reducers/orderReducer';
 import { getError } from '../../utils/error';
+import { Store } from '../../utils/Store';
+import useStyles from '../../utils/styles';
 
 function OrderDetails({ params }) {
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const { state } = useContext(Store);
   const orderId = params.id;
   const classes = useStyles();
@@ -71,14 +73,73 @@ function OrderDetails({ params }) {
       dispatch({ type: 'FETCH_FAIL', payload: errMsg });
     }
   };
+
+  const loadPaypalScript = async () => {
+    const { data: clientId } = await axios.get(`/api/keys/paypal)`, {
+      headers: {
+        authorization: `Bearer ${userInfo.token}`,
+      },
+    });
+    paypalDispatch({
+      type: 'resetOptions',
+      value: {
+        'client-id': clientId,
+        currency: 'CAD',
+      },
+    });
+    paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+  };
   useEffect(() => {
     if (!userInfo) {
       router.push('/login');
     }
     if (!order._id || (order._id && order.id !== orderId)) {
       fetchOrder();
+    } else {
+      loadPaypalScript();
     }
   }, []);
+
+  const createOrder = (data, actions) => {
+    return actions.order
+      .create({
+        purchase_unit: [
+          {
+            amount: { value: totalPrice },
+          },
+        ],
+      })
+      .then((orderID) => {
+        return orderID;
+      });
+  };
+
+  const onApprove = (data, actions) => {
+    return actions.order.capture().then(async (details) => {
+      try {
+        dispatch({ type: 'PAY_REQUEST' });
+        const { data } = await axios.put(
+          `/api/orders/${order._id}/pay`,
+          details,
+          {
+            headers: {
+              authorization: `Bearer ${userInfo.token}`,
+            },
+          }
+        );
+        dispatch({ type: 'PAY_SUCCESS', payload: data });
+        enqueueSnackbar('order is paid', { variant: 'success' });
+      } catch (err) {
+        dispatch({ type: 'PAY_FAIL', payload: getError(err) });
+        enqueueSnackbar(getError(err), { variant: 'error' });
+      }
+    });
+  };
+
+  const onError = (err) => {
+    enqueueSnackbar(getError(err), { variant: 'error' });
+  };
+
   return (
     <Layout title={`Order ${orderId}`}>
       <Typography component="h1" variant="h1">
@@ -225,6 +286,19 @@ function OrderDetails({ params }) {
                     </Grid>
                   </Grid>
                 </ListItem>
+                {!isPaid && (
+                  <ListItem>
+                    {isPending ? (
+                      <CircularProgress />
+                    ) : (
+                      <PayPalButtons
+                        createOrder={createOrder}
+                        onApprove={onApprove}
+                        onError={onError}
+                      ></PayPalButtons>
+                    )}
+                  </ListItem>
+                )}
               </List>
             </Card>
           </Grid>
