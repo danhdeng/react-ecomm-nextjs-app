@@ -13,7 +13,7 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
 import Layout from '../../components/Layout';
-import Product from '../../models/product';
+import Product from '../../models/Product';
 import db from '../../utils/db';
 import { Store } from '../../utils/Store';
 // import data from '../../utils/data';
@@ -93,21 +93,25 @@ export default function ProductScreen(props) {
           <Card>
             <List>
               <ListItem>
+                <Grid container>
                 <Grid item xs={6}>
                   <Typography>Price</Typography>
                 </Grid>
                 <Grid item xs={6}>
                   <Typography>${product.price}</Typography>
+                  </Grid>
                 </Grid>
               </ListItem>
               <ListItem>
-                <Grid item xs={6}>
-                  <Typography>Status</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography>
-                    {product.countInStock > 0 ? 'In stock' : 'Unavailable'}
-                  </Typography>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <Typography>Status</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography>
+                      {product.countInStock > 0 ? 'In stock' : 'Unavailable'}
+                    </Typography>
+                  </Grid>
                 </Grid>
               </ListItem>
               <ListItem>
