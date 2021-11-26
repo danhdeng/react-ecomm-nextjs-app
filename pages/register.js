@@ -50,10 +50,6 @@ export default function Register() {
       //window.alert('login successfully');
       router.push(redirect || '/');
     } catch (error) {
-      console.log(error.response);
-      // enqueueSnackbar(error.response ? error.response.data : error.message, {
-      //   variant: 'error',
-      // });
       enqueueSnackbar(getError(error), {
         variant: 'error',
       });

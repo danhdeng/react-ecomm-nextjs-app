@@ -1,6 +1,5 @@
 import {
   Button,
-  Link,
   List,
   ListItem,
   TextField,
@@ -17,7 +16,6 @@ import useStyles from '../utils/styles';
 
 export default function Shipping() {
   const { state, dispatch } = useContext(Store);
-  console.log(state);
   const {
     userInfo,
     cart: { shippingInfo },
@@ -48,10 +46,6 @@ export default function Shipping() {
       //window.alert('login successfully');
       router.push('/payment');
     } catch (error) {
-      console.log(error.response);
-      // enqueueSnackbar(error.response ? error.response.data : error.message, {
-      //   variant: 'error',
-      // });
       enqueueSnackbar(
         error.response.data
           ? error.response.data.message

@@ -14,7 +14,7 @@ import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import Layout from '../components/Layout';
 // import data from '../utils/data';
-import Product from '../models/product';
+import Product from '../models/Product';
 import db from '../utils/db';
 import { Store } from '../utils/Store';
 

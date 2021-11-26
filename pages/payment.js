@@ -15,7 +15,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import CheckoutWizard from '../components/CheckoutWizard';
 import Layout from '../components/Layout';
 import { Store } from '../utils/Store';
-import useStyles from '../utils/Styles';
+import useStyles from '../utils/styles';
 
 export default function Payment() {
   const router = useRouter();

@@ -40,7 +40,6 @@ export default function Login() {
       //window.alert('login successfully');
       router.push(redirect || '/');
     } catch (error) {
-      console.log(error.response);
       enqueueSnackbar(getError(error), {
         variant: 'error',
       });
