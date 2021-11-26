@@ -104,7 +104,7 @@ function OrderDetails({ params }) {
       console.log('load paypal script');
       loadPaypalScript();
     }
-  }, []);
+  }, [order, successPay, successDeliver]);
 
   function createOrder(data, actions) {
     return actions.order
