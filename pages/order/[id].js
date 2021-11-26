@@ -60,16 +60,16 @@ function OrderDetails({ params }) {
 
   const fetchOrder = async () => {
     try {
-      dispatch({ type: 'FETCH_REQUEST' });
+      dispatch({ type: 'FETCH_ORDER_REQUEST' });
       const { data } = await axios.get(`/api/orders/${orderId}`, {
         headers: {
           authorization: `Bearer ${userInfo.token}`,
         },
       });
-      dispatch({ type: 'FETCH_SUCCESS', payload: data });
+      dispatch({ type: 'FETCH_ORDER_SUCCESS', payload: data });
     } catch (error) {
       const errMsg = getError(error);
-      dispatch({ type: 'FETCH_FAIL', payload: errMsg });
+      dispatch({ type: 'FETCH_ORDER_FAIL', payload: errMsg });
     }
   };
 

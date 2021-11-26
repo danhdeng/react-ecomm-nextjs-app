@@ -1,10 +1,16 @@
 export const orderReducer = (state, action) => {
   switch (action.type) {
-    case 'FETCH_REQUEST':
+    case 'FETCH_ORDER_REQUEST':
       return { ...state, loading: true, error: '' };
-    case 'FETCH_SUCCESS':
+    case 'FETCH_ORDER_SUCCESS':
       return { ...state, loading: false, order: action.payload, error: '' };
-    case 'FETCH_FAIL':
+    case 'FETCH_ORDER_FAIL':
+      return { ...state, loading: false, error: action.payload };
+    case 'FETCH_ORDERS_REQUEST':
+      return { ...state, loading: true, error: '' };
+    case 'FETCH_ORDERS_SUCCESS':
+      return { ...state, loading: false, orders: action.payload, error: '' };
+    case 'FETCH_ORDERS_FAIL':
       return { ...state, loading: false, error: action.payload };
     case 'PAY_REQUEST':
       return { ...state, loadingPay: true };
