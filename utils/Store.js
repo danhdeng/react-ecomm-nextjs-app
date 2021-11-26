@@ -48,6 +48,7 @@ function reducer(state, action) {
       return { ...state, cart: { ...state.cart, cartItems } };
     }
     case 'USER_LOGIN':
+      console.log(action.payload);
       Cookies.set('userInfo', JSON.stringify(action.payload));
       return { ...state, userInfo: action.payload };
 

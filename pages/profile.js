@@ -56,8 +56,9 @@ function Profile() {
         },
         { headers: { authorization: `Bearer ${userInfo.token}` } }
       );
+      console.log('profile update data:', data);
       dispatch({ type: 'USER_LOGIN', payload: data });
-      Cookies.set('userInfo', data);
+      //Cookies.set('userInfo', data);
 
       enqueueSnackbar('Profile updated successfully', { variant: 'success' });
     } catch (err) {
@@ -66,7 +67,7 @@ function Profile() {
   };
   useEffect(() => {
     if (!userInfo) {
-      router.push('/login');
+      return router.push('/login');
     }
     setValue('name', userInfo.name);
     setValue('email', userInfo.email);
@@ -166,7 +167,10 @@ function Profile() {
                         control={control}
                         defaultValue=""
                         rules={{
-                          minLength: 6,
+                          validate: (value) =>
+                            value === '' ||
+                            value.length > 5 ||
+                            'password is more than 5',
                         }}
                         render={({ field }) => (
                           <TextField
@@ -178,9 +182,7 @@ function Profile() {
                             error={Boolean(errors.password)}
                             helperText={
                               errors.password
-                                ? errors.password.type === 'minLength'
-                                  ? 'Password length must be more than 5'
-                                  : 'Password is required'
+                                ? 'Password length must be more than 5'
                                 : ''
                             }
                             {...field}
@@ -194,7 +196,10 @@ function Profile() {
                         control={control}
                         defaultValue=""
                         rules={{
-                          minLength: 6,
+                          validate: (value) =>
+                            value === '' ||
+                            value.length > 5 ||
+                            'password is more than 5',
                         }}
                         render={({ field }) => (
                           <TextField
@@ -206,9 +211,7 @@ function Profile() {
                             error={Boolean(errors.confirmPassword)}
                             helperText={
                               errors.confirmPassword
-                                ? errors.confirmPassword.type === 'minLength'
-                                  ? 'Confirm Password length must be more than 5'
-                                  : 'Confirm Password is required'
+                                ? 'Confirm Password length must be more than 5'
                                 : ''
                             }
                             {...field}
