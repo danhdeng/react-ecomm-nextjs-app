@@ -264,12 +264,86 @@ export default function ProductEdit ({params}) {
                                                     fullWidth
                                                     id="category"
                                                     label="Category"
-                                                    error={Boolean(errors.image)}
-                                                    helperText={errors.image ? 'Image is required': ''}
+                                                    error={Boolean(errors.category)}
+                                                    helperText={errors.category ? 'Category is required': ''}
                                                     {...field}
                                                 ></TextField>
                                             )}
                                         ></Controller>
+                                    </ListItem>
+                                    <ListItem>
+                                        <Controller
+                                            name="brand"
+                                            control={control}
+                                            defaultValue=""
+                                            rules={{
+                                                required: true,
+                                            }}
+                                            render={({ field }) => (
+                                                <TextField
+                                                    variant="outlined"
+                                                    fullWidth
+                                                    id="brand"
+                                                    label="Brand"
+                                                    error={Boolean(errors.brand)}
+                                                    helperText={errors.brand ? 'Brand is required': ''}
+                                                    {...field}
+                                                ></TextField>
+                                            )}
+                                        ></Controller>
+                                    </ListItem>
+                                    <ListItem>
+                                        <Controller
+                                            name="countInStock"
+                                            control={control}
+                                            defaultValue=""
+                                            rules={{
+                                                required: true,
+                                            }}
+                                            render={({ field }) => (
+                                                <TextField
+                                                    variant="outlined"
+                                                    fullWidth
+                                                    id="countInStock"
+                                                    label="Count In Stock"
+                                                    error={Boolean(errors.countInStock)}
+                                                    helperText={errors.countInStock ? 'Count In Stock is required': ''}
+                                                    {...field}
+                                                ></TextField>
+                                            )}
+                                        ></Controller>
+                                    </ListItem>
+                                    <ListItem>
+                                        <Controller
+                                            name="description"
+                                            control={control}
+                                            defaultValue=""
+                                            rules={{
+                                                required: true,
+                                            }}
+                                            render={({ field }) => (
+                                                <TextField
+                                                    variant="outlined"
+                                                    fullWidth
+                                                    id="description"
+                                                    label="Description"
+                                                    error={Boolean(errors.description)}
+                                                    helperText={errors.description ? 'Description is required': ''}
+                                                    {...field}
+                                                ></TextField>
+                                            )}
+                                        ></Controller>
+                                    </ListItem>
+                                    <ListItem>
+                                        <Button
+                                            variant="contained"
+                                            type="submit"
+                                            fullWidth
+                                            color="primary"
+                                        >
+                                            Update
+                                        </Button>
+                                        {loadingUpate && <CircularProgress />}
                                     </ListItem>
                                 </List>
                             </form>
@@ -279,6 +353,14 @@ export default function ProductEdit ({params}) {
             </Grid>
         </Layout>
     )
+}
+
+export async function getServerSideProps({ params}){
+    return {
+        props:{
+            params
+        },
+    };
 }
 
 
