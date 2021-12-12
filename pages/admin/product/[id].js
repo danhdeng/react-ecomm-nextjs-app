@@ -10,7 +10,7 @@ import {Layout} from '../../../components/Layout';
 import {useStyles} from '../../../styles';
 import {Controller, useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
-import {productAction} from '../../../reducers/productReducer';
+import {productReducer} from '../../../reducers/productReducer';
 
 export default function ProductEdit ({params}) {
     const productId=params.id;
@@ -68,9 +68,9 @@ export default function ProductEdit ({params}) {
                     authorization: `Bearer ${userInfo.token}`,
                 },
             });
-            dispatch({ type: 'UPLOAD_PRODUCT_SUCESS'});
+            dispatch({ type: 'UPLOAD_PRODUCT_SUCCESS'});
             setValue(imageField, data.secure_url);
-            enqueueSnackbar('File uploaded sucessfully', {variant: 'success'});
+            enqueueSnackbar('File uploaded successfully', {variant: 'success'});
 
         }catch(err){
             console.log(err);
@@ -95,8 +95,7 @@ export default function ProductEdit ({params}) {
                 description
             },{
                 headers: {
-                'Content-Type' : 'multipart/form-data',
-                authorization: `Bearer ${userInfo.token}`,
+                                authorization: `Bearer ${userInfo.token}`,
             }});
         }catch(err){
             console.log(err);
@@ -235,7 +234,7 @@ export default function ProductEdit ({params}) {
                                                     variant="outlined"
                                                     fullWidth
                                                     id="image"
-                                                    Label="Image"
+                                                    label="Image"
                                                     error={Boolean(errors.image)}
                                                     helperText={errors.image ? 'Image is required': ''}
                                                     {...field}
@@ -246,7 +245,7 @@ export default function ProductEdit ({params}) {
                                     <ListItem>
                                         <Button variant="contained" component="label">
                                             Upload File
-                                            <input type="file" onChange={uplaodHandler} hidden />
+                                            <input type="file" onChange={uploadHandler} hidden />
                                         </Button>
                                         {loadingUpload && <CircularProgress />}
                                     </ListItem>
@@ -325,6 +324,7 @@ export default function ProductEdit ({params}) {
                                                 <TextField
                                                     variant="outlined"
                                                     fullWidth
+                            multiline
                                                     id="description"
                                                     label="Description"
                                                     error={Boolean(errors.description)}
@@ -364,5 +364,5 @@ export async function getServerSideProps({ params}){
 }
 
 
-export defaultValue dynamic(() => Promise.resolve(ProductEdit), { ssr: false });
+export default dynamic(() => Promise.resolve(ProductEdit), { ssr: false });
 
